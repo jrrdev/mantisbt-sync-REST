@@ -21,31 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.github.jrrdev.mantisbtsync.rest.services;
+package com.github.jrrdev.mantisbtsync.rest.junit;
 
-import java.util.List;
+import javax.sql.DataSource;
 
-import com.github.jrrdev.mantisbtsync.rest.beans.IssueLineBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.ninja_squad.dbsetup.destination.DataSourceDestination;
+import com.ninja_squad.dbsetup.destination.Destination;
 
 /**
- * DAO service for issues related operations.
+ * Configuration Spring pour les tests JUnit.
  *
  * @author jrrdev
  *
  */
-public interface IssuesDao {
+@Configuration
+public class JunitTestConfiguration {
 
-	/**
-	 * Retrieves the issues by project id and with a status under the passed limit.
-	 * The project id is optionnal, if null all issues are retrieved.
-	 * The status limit is also optionnal.
-	 *
-	 * @param projectId
-	 * 			the project id
-	 * @param maxStatus
-	 * 			Name of the limit status
-	 * @return a list of issue
-	 */
-	List<IssueLineBean> getOpenIssuesByProjectId(Integer projectId, String maxStatus);
-
+	@Bean
+	public Destination dbSetupDest(final DataSource dataSource) {
+		return new DataSourceDestination(dataSource);
+	}
 }
+
