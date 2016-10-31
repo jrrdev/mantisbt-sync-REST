@@ -23,6 +23,10 @@
  */
 package com.github.jrrdev.mantisbtsync.rest.repositories;
 
+import java.util.List;
+
+import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.github.jrrdev.mantisbtsync.rest.domain.Bug;
@@ -36,5 +40,14 @@ import com.github.jrrdev.mantisbtsync.rest.repositories.commons.ReadOnlyPagingAn
  */
 @RepositoryRestResource
 public interface BugRepository extends ReadOnlyPagingAndSortingRepository<Bug, Long> {
+
+	List<Bug> findByProjectIdAndHandlerIdAndStatusIdNotIn(@Param("project") Long project,
+			@Param("handler") Long handler, @Param("status") List<Long> status, Sort sort);
+
+	List<Bug> findByProjectIdAndTargetVersion(@Param("project") Long project,
+			@Param("version") String version, Sort sort);
+
+	List<Bug> findByProjectIdAndTargetVersionAndStatusIdIn(@Param("project") Long project,
+			@Param("version") String version, @Param("status") List<Long> status, Sort sort);
 
 }

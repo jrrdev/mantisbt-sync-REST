@@ -21,36 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.github.jrrdev.mantisbtsync.rest.repositories.commons;
+package com.github.jrrdev.mantisbtsync.rest.domain.projections;
 
-import java.io.Serializable;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.rest.core.config.Projection;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.NoRepositoryBean;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.jrrdev.mantisbtsync.rest.domain.Bug;
 
 /**
  * @author jrrdev
  *
  */
-@NoRepositoryBean
-public interface ReadOnlyPagingAndSortingRepository<T, ID extends Serializable> extends ReadOnlyRepository<T, ID> {
+@Projection(name = "bugSummary", types = { Bug.class })
+@JsonPropertyOrder({"id", "summary", "handlerName", "statusName"})
+public interface BugSummary {
 
-	/**
-	 * Returns all entities sorted by the given options.
-	 *
-	 * @param sort
-	 * @return all entities sorted by the given options
-	 */
-	List<T> findAll(Sort sort);
+	public long getId();
 
-	/**
-	 * Returns a {@link Page} of entities meeting the paging restriction provided in the {@code Pageable} object.
-	 *
-	 * @param pageable
-	 * @return a page of entities
-	 */
-	Page<T> findAll(Pageable pageable);
+	public String getSummary();
+
+	@Value("#{target.handler.name}")
+	public String getHandlerName();
+
+	@Value("#{target.status.name}")
+	public String getStatusName();
 }
