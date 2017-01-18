@@ -50,4 +50,6 @@ public interface BugRepository extends ReadOnlyPagingAndSortingRepository<Bug, L
 	List<Bug> findByProjectIdAndTargetVersionAndStatusIdIn(@Param("project") Long project,
 			@Param("version") String version, @Param("status") List<Long> status, Sort sort);
 
+	List<Bug> findByProjectIdAndStatusIdNotIn(@Param("project") Long project, @Param("status") List<Long> status, Sort sort);
+
 }

@@ -32,6 +32,8 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 
 import com.github.jrrdev.mantisbtsync.rest.domain.Bug;
 import com.github.jrrdev.mantisbtsync.rest.junit.AbstractRepositoryTest;
@@ -148,6 +150,50 @@ public class BugRepositoryTest extends AbstractRepositoryTest {
 		final List<Bug> results = repo.findByProjectIdAndTargetVersionAndStatusIdIn(1L, "1.0", statusFilter, null);
 		assertEquals(1, results.size());
 		assertEquals(1, results.get(0).getId());
+	}
+
+	@Test
+	public void testFindByProjectIdAndStatusIdNotIn() {
+
+		final Operation op = sequenceOf(
+				insertInto("mantis_enum_status")
+				.columns("id", "name")
+				.values(1, "target status")
+				.values(2, "other status")
+				.build(),
+
+				insertInto("mantis_project_table")
+				.columns("id", "name")
+				.values(1, "target project")
+				.values(2, "other project")
+				.build(),
+
+				insertInto("mantis_user_table")
+				.columns("id", "name")
+				.values(1, "target user")
+				.values(2, "other user")
+				.build(),
+
+				insertInto("mantis_bug_table")
+				.columns("id", "project_id", "status_id", "handler_id", "summary", "last_sync")
+				.values(1, 1, 1, 1, "should be in result", ValueGenerators.dateSequence().nextValue())
+				.values(2, 2, 1, 1, "wrong project", ValueGenerators.dateSequence().nextValue())
+				.values(3, 1, 1, 2, "should be in result 2", ValueGenerators.dateSequence().nextValue())
+				.values(4, 1, 2, 1, "wrong status", ValueGenerators.dateSequence().nextValue())
+				.build());
+
+		lauchOperation(op);
+
+		final List<Long> statusFilter = new ArrayList<Long>();
+		statusFilter.add(2L);
+
+		final Order order = new Order(Sort.Direction.ASC, "id");
+		final Sort sort = new Sort(order);
+
+		final List<Bug> results = repo.findByProjectIdAndStatusIdNotIn(1L, statusFilter, sort);
+		assertEquals(2, results.size());
+		assertEquals(1, results.get(0).getId());
+		assertEquals(3, results.get(1).getId());
 	}
 
 	/**
