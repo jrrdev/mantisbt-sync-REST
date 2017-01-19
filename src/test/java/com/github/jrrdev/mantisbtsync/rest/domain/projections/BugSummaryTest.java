@@ -65,6 +65,7 @@ public class BugSummaryTest extends AbstractRepositoryTest {
 				.andExpect(jsonPath("$.id").value(1L))
 				.andExpect(jsonPath("$.summary").value("should be in result"))
 				.andExpect(jsonPath("$.handlerName").value("target user"))
-				.andExpect(jsonPath("$.statusName").value("target status"));
+				.andExpect(jsonPath("$.statusName").value("target status"))
+				.andExpect(jsonPath("$.targetVersion").doesNotExist());
 	}
 }

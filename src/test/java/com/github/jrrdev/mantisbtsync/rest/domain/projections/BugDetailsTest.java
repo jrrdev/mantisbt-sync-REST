@@ -16,7 +16,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
 import com.github.jrrdev.mantisbtsync.rest.junit.AbstractRepositoryTest;
 import com.ninja_squad.dbsetup.generator.ValueGenerators;
 import com.ninja_squad.dbsetup.operation.Operation;
@@ -103,6 +102,7 @@ public class BugDetailsTest extends AbstractRepositoryTest {
 				.andExpect(jsonPath("$.summary").value("should be in result"))
 				.andExpect(jsonPath("$.handlerName").value("target user"))
 				.andExpect(jsonPath("$.statusName").value("target status"))
-				.andExpect(jsonPath("$.description").value("description 1"));
+				.andExpect(jsonPath("$.description").value("description 1"))
+				.andExpect(jsonPath("$.targetVersion").doesNotExist());
 	}
 }
