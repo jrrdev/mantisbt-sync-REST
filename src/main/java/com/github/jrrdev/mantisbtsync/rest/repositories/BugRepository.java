@@ -41,8 +41,10 @@ import com.github.jrrdev.mantisbtsync.rest.repositories.commons.ReadOnlyPagingAn
 @RepositoryRestResource
 public interface BugRepository extends ReadOnlyPagingAndSortingRepository<Bug, Long> {
 
-	List<Bug> findByProjectIdAndHandlerIdAndStatusIdNotIn(@Param("project") Long project,
-			@Param("handler") Long handler, @Param("status") List<Long> status, Sort sort);
+    List<Bug> findByProjectId(@Param("project") Long project, Sort sort);
+    
+    List<Bug> findByProjectIdAndHandlerIdInAndStatusIdNotIn(@Param("project") Long project,
+			@Param("handler") List<Long> handler, @Param("status") List<Long> status, Sort sort);
 
 	List<Bug> findByProjectIdAndTargetVersion(@Param("project") Long project,
 			@Param("version") String version, Sort sort);
@@ -51,5 +53,4 @@ public interface BugRepository extends ReadOnlyPagingAndSortingRepository<Bug, L
 			@Param("version") String version, @Param("status") List<Long> status, Sort sort);
 
 	List<Bug> findByProjectIdAndStatusIdNotIn(@Param("project") Long project, @Param("status") List<Long> status, Sort sort);
-
 }
