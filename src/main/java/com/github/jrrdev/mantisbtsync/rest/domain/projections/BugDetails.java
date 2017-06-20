@@ -34,7 +34,7 @@ import com.github.jrrdev.mantisbtsync.rest.domain.Bug;
  *
  */
 @Projection(name = "bugDetails", types = { Bug.class })
-@JsonPropertyOrder({"id", "summary", "handlerName", "statusName"})
+@JsonPropertyOrder({"id", "category", "summary", "handlerName", "handlerUsername", "statusName", "priorityName", "severityName"})
 public interface BugDetails {
 
 	public long getId();
@@ -45,9 +45,22 @@ public interface BugDetails {
 
 	public String getStepsToReproduce();
 
+    public String getAdditionalInformation();
+
+	public String getCategory();
+
 	@Value("#{target.handler.name}")
 	public String getHandlerName();
+	
+	@Value("#{target.handler.name.replaceFirst('ex\\.(.)[^.]*\\.(.*)', '$1$2')}")
+    public String getHandlerUsername();
 
 	@Value("#{target.status.name}")
 	public String getStatusName();
+
+    @Value("#{target.priority.name}")
+    public String getPriorityName();
+
+    @Value("#{target.severity.name}")
+    public String getSeverityName();
 }
