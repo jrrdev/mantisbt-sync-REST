@@ -41,15 +41,15 @@ public class BugDetailsTest extends AbstractRepositoryTest {
 				.values(1, "target status")
 				.build(),
 
-				insertInto("mantis_enum_priorities")
-				.columns("id", "name")
-				.values(1, "target priority")
-				.build(),
-				
-				insertInto("mantis_enum_severities")
-				.columns("id", "name")
-				.values(1, "target severity")
-				.build(),
+                insertInto("mantis_enum_priorities")
+                .columns("id", "name")
+                .values(1, "target priority")
+                .build(),
+                
+                insertInto("mantis_enum_severities")
+                .columns("id", "name")
+                .values(1, "target severity")
+                .build(),
 				
 				insertInto("mantis_project_table")
 				.columns("id", "name")
@@ -62,7 +62,7 @@ public class BugDetailsTest extends AbstractRepositoryTest {
 				.build(),
 
 				insertInto("mantis_bug_table")
-				.columns("id", "project_id", "status_id", "handler_id", "priority_id", "severity_id", "summary", "description", "steps_to_reproduce", "category", "last_sync")
+                .columns("id", "project_id", "status_id", "handler_id", "priority_id", "severity_id", "summary", "description", "steps_to_reproduce", "category", "last_sync")
 				.values(1, 1, 1, 1, 1, 1, "should be in result", "description 1", "step 1 : do anything", "category 1", ValueGenerators.dateSequence().nextValue())
 				.build());
 
@@ -74,8 +74,8 @@ public class BugDetailsTest extends AbstractRepositoryTest {
 				.andExpect(jsonPath("$.id").value(1L))
 				.andExpect(jsonPath("$.summary").value("should be in result"))
 				.andExpect(jsonPath("$.handlerName").value("target.user"))
-				.andExpect(jsonPath("$.priorityName").value("target priority"))
-				.andExpect(jsonPath("$.severityName").value("target severity"))
+                .andExpect(jsonPath("$.priorityName").value("target priority"))
+                .andExpect(jsonPath("$.severityName").value("target severity"))
 				.andExpect(jsonPath("$.statusName").value("target status"))
 				.andExpect(jsonPath("$.description").value("description 1"))
 				.andExpect(jsonPath("$.stepsToReproduce").value("step 1 : do anything"))
@@ -91,15 +91,15 @@ public class BugDetailsTest extends AbstractRepositoryTest {
 				.values(1, "target status")
 				.build(),
 				
-				insertInto("mantis_enum_priorities")
-				.columns("id", "name")
-				.values(1, "target priority")
-				.build(),
+                insertInto("mantis_enum_priorities")
+                .columns("id", "name")
+                .values(1, "target priority")
+                .build(),
 				
 				insertInto("mantis_enum_severities")
-				.columns("id", "name")
-				.values(1, "target severity")
-				.build(),
+                .columns("id", "name")
+                .values(1, "target severity")
+                .build(),
 
 				insertInto("mantis_project_table")
 				.columns("id", "name")
