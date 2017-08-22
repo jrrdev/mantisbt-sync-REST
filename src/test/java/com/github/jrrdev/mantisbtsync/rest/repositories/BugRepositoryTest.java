@@ -86,7 +86,10 @@ public class BugRepositoryTest extends AbstractRepositoryTest {
 		final List<Long> statusFilter = new ArrayList<Long>();
 		statusFilter.add(2L);
 
-		final List<Bug> results = repo.findByProjectIdAndHandlerIdAndStatusIdNotIn(1L, 1L, statusFilter, null);
+		final List<Long> handlerFilter = new ArrayList<Long>();
+		handlerFilter.add(1L);
+		
+		final List<Bug> results = repo.findByProjectIdAndHandlerIdInAndStatusIdNotIn(1L, handlerFilter, statusFilter, null);
 		assertEquals(1, results.size());
 		assertEquals(1, results.get(0).getId());
 	}
